@@ -10,4 +10,8 @@ public class Connection {
 	public Connection(Neuron neuron) {
 		this(neuron, 1);//TODO random weight
 	}
+	
+	public double getInput() {
+		return neuron.getActivationLevel() * weight;
+	}
 }
