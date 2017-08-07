@@ -4,7 +4,12 @@ public class Neuron {
 	private ArrayList<Connection> connections;
 	private double activationLevel;
 	private double netInput;
-	private ActivationFunction activationFunction = ActivationFunction.tangensHyperbolicus;
+	private ActivationFunction activationFunction;
+	
+	public Neuron() {
+		connections = new ArrayList();
+		activationFunction = ActivationFunction.tangensHyperbolicus;
+	}
 	
 	public double getActivationLevel() {
 		return activationLevel;

@@ -8,7 +8,7 @@ public class Connection {
 	}
 	
 	public Connection(Neuron neuron) {
-		this(neuron, 1);//TODO random weight
+		this(neuron, Math.random() * 2 - 1);
 	}
 	
 	public double getInput() {
