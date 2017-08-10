@@ -1,3 +1,5 @@
+package de.jrk.neuralNetwork;
+
 public class Connection {
 	private double weight;
 	private Neuron neuron;

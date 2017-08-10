@@ -1,4 +1,4 @@
-package activationFunktions;
+package de.jrk.neuralNetwork.activationFunctions;
 
 public abstract class ActivationFunction {
 	public final static TangensHyperbolicus tangensHyperbolicus = new TangensHyperbolicus();

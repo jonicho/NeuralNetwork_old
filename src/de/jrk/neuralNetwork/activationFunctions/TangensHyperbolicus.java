@@ -1,4 +1,4 @@
-package activationFunktions;
+package de.jrk.neuralNetwork.activationFunctions;
 
 public class TangensHyperbolicus extends ActivationFunction {
 

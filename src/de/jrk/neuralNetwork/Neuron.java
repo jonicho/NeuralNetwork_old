@@ -1,5 +1,7 @@
+package de.jrk.neuralNetwork;
+
 import java.util.*;
-import activationFunktions.*;
+import de.jrk.neuralNetwork.activationFunctions.*;
 public class Neuron {
 	private ArrayList<Connection> connections;
 	private double activationLevel;
@@ -9,6 +11,10 @@ public class Neuron {
 	public Neuron() {
 		connections = new ArrayList();
 		activationFunction = ActivationFunction.tangensHyperbolicus;
+	}
+	
+	public void addConnection(Neuron neuron) {
+		connections.add(new Connection(neuron));
 	}
 	
 	public double getActivationLevel() {
@@ -23,6 +29,6 @@ public class Neuron {
 	}
 	
 	public void calculateActivationLevel() {
-		activationLevel = activationFunction.function(activationLevel);
+		activationLevel = activationFunction.function(netInput);
 	}
 }
