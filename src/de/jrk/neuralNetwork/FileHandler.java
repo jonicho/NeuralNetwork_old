@@ -1,31 +1,33 @@
 package de.jrk.neuralNetwork;
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
-public class SaveLoad {
-	private SaveLoad() {}
+public class FileHandler {
+	private FileHandler() {}
 	
 	public static String[] load(File file) {
 		String[] result;
-		ArrayList<String> list = new ArrayList();
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
-			list.add(br.readLine());
+			result = (String[]) br.lines().toArray();
+			br.close();
 		} catch (FileNotFoundException | IOException e) {
 			e.printStackTrace();
 			return null;
 		}
-		result = new String[list.size()];
-		for(int i = 0; i < result.length; i++) {
-			result[i] = list.get(i);
-		}
 		return result;
 	}
 	
-	public void save(File file, String data) {
+	public void save(File file, String[] data) {
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-			bw.write(data);
+			for(int i = 0; i < data.length; i++) {
+				bw.write(data[i]);
+				bw.newLine();
+			}
+			bw.flush();
+			bw.close();
 		} catch (FileNotFoundException | IOException e) {
 			e.printStackTrace();
 		}

@@ -12,6 +12,14 @@ public class Connection {
 	public Connection(Neuron neuron) {
 		this(neuron, Math.random() * 2 - 1);
 	}
+
+	public Neuron getNeuron() {
+		return neuron;
+	}
+	
+	public double getWeight() {
+		return weight;
+	}
 	
 	public double getInput() {
 		return neuron.getActivationLevel() * weight;
