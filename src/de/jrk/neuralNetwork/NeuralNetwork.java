@@ -53,14 +53,14 @@ public class NeuralNetwork {
 						if (conn.length == 1) {
 							neuron.addBiasConnection();
 						} else {
-							neuron.addBiasConnection(Double.parseDouble(conn[1]));
+							neuron.addBiasConnection(Float.parseFloat(conn[1]));
 						}
 					} else {
 						int neuronIndex = Integer.parseInt(conn[0]);
 						if (conn.length == 1) {
 							neuron.addConnection(neurons.get(neuronIndex));
 						} else {
-							neuron.addConnection(neurons.get(neuronIndex), Double.parseDouble(conn[1]));
+							neuron.addConnection(neurons.get(neuronIndex), Float.parseFloat(conn[1]));
 						}
 					}
 				}
@@ -70,8 +70,8 @@ public class NeuralNetwork {
 		}
 	}
 
-	public double[] step(double[] inputs) {
-		double[] outputs = new double[outputNeurons.size()];
+	public float[] step(float[] inputs) {
+		float[] outputs = new float[outputNeurons.size()];
 
 		for (int i = 0; i < inputNeurons.size(); i++) {
 			inputNeurons.get(i).setInput(inputs[i]);

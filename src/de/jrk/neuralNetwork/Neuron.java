@@ -5,8 +5,8 @@ import de.jrk.neuralNetwork.activationFunctions.ActivationFunction;
 
 public class Neuron {
 	protected ArrayList<Connection> connections;
-	private double activationLevel;
-	private double netInput;
+	private float activationLevel;
+	private float netInput;
 	protected ActivationFunction activationFunction;
 	
 	public Neuron() {
@@ -18,7 +18,7 @@ public class Neuron {
 		connections.add(new Connection(neuron));
 	}
 	
-	public void addConnection(Neuron neuron, double weight) {
+	public void addConnection(Neuron neuron, float weight) {
 		connections.add(new Connection(neuron, weight));
 	}
 	
@@ -26,7 +26,7 @@ public class Neuron {
 		connections.add(new BiasConnection());
 	}
 	
-	public void addBiasConnection(double weight) {
+	public void addBiasConnection(float weight) {
 		connections.add(new BiasConnection(weight));
 	}
 	
@@ -34,7 +34,7 @@ public class Neuron {
 		return connections;
 	}
 	
-	public double getActivationLevel() {
+	public float getActivationLevel() {
 		return activationLevel;
 	}
 	

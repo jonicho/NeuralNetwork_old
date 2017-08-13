@@ -7,9 +7,9 @@ public class Main {
 		File file = new File("/storage/emulated/0/Git/NeuralNetwork/src/de/jrk/tests/test.nns");
 		NeuralNetwork nn = new NeuralNetwork(file);
 		FileHandler.save(file, nn.save(true));
-		double[] outputs;
+		float[] outputs;
 		for(int i = 0; i < 100; i++) {
-			outputs = nn.step(new double[] {2, 2, 2, 2, 2});
+			outputs = nn.step(new float[] {0, 0, 0, 0, 0});
 			for(int j = 0; j < outputs.length - 1; j++) {
 				System.out.print(outputs[j] + "; ");
 			}

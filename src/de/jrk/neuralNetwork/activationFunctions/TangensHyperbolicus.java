@@ -3,8 +3,8 @@ package de.jrk.neuralNetwork.activationFunctions;
 public class TangensHyperbolicus extends ActivationFunction {
 
 	@Override
-	public double function(double x) {
-		return Math.tanh(x);
+	public float function(float x) {
+		return (float) Math.tanh(x);
 	}
 
 	

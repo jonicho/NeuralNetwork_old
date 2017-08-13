@@ -5,12 +5,12 @@ public class BiasConnection extends Connection {
 		super(null);
 	}
 	
-	public BiasConnection(double weigth) {
+	public BiasConnection(float weigth) {
 		super(null, weigth);
 	}
 
 	@Override
-	public double getValue() {
+	public float getValue() {
 		return super.weight;
 	}
 }

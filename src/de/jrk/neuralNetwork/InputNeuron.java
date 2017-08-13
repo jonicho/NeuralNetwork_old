@@ -1,7 +1,7 @@
 package de.jrk.neuralNetwork;
 
 public class InputNeuron extends Neuron {
-	private double input;
+	private float input;
 	
 	public InputNeuron() {
 		super.connections = null;
@@ -9,11 +9,11 @@ public class InputNeuron extends Neuron {
 	}
 	
 	@Override
-	public double getActivationLevel() {
+	public float getActivationLevel() {
 		return input;
 	}
 	
-	public void setInput(double input) {
+	public void setInput(float input) {
 		this.input = input;
 	}
 

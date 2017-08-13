@@ -1,27 +1,27 @@
 package de.jrk.neuralNetwork;
 
 public class Connection {
-	protected double weight;
+	protected float weight;
 	private Neuron neuron;
 	
-	public Connection(Neuron neuron, double weight) {
+	public Connection(Neuron neuron, float weight) {
 		this.weight = weight;
 		this.neuron = neuron;
 	}
 	
 	public Connection(Neuron neuron) {
-		this(neuron, Math.random() * 2 - 1);
+		this(neuron, (float) Math.random() * 2 - 1);
 	}
 
 	public Neuron getNeuron() {
 		return neuron;
 	}
 	
-	public double getWeight() {
+	public float getWeight() {
 		return weight;
 	}
 	
-	public double getValue() {
+	public float getValue() {
 		return neuron.getActivationLevel() * weight;
 	}
 }
