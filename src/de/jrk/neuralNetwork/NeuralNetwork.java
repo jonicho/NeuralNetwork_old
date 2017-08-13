@@ -49,17 +49,24 @@ public class NeuralNetwork {
 				String[] neuronsToConn = conns[1].split(",");
 				for (String k : neuronsToConn) {
 					String[] conn = k.split(":");
-					int neuronIndex = Integer.parseInt(conn[0]);
-					if (conn.length == 1) neuron.addConnection(neurons.get(neuronIndex));
-					else {
-						double weight = Double.parseDouble(conn[1]);
-						neuron.addConnection(neurons.get(neuronIndex), weight);
+					if (conn[0].equals("b") || conn[0].equals("B")) {
+						if (conn.length == 1) {
+							neuron.addBiasConnection();
+						} else {
+							neuron.addBiasConnection(Double.parseDouble(conn[1]));
+						}
+					} else {
+						int neuronIndex = Integer.parseInt(conn[0]);
+						if (conn.length == 1) {
+							neuron.addConnection(neurons.get(neuronIndex));
+						} else {
+							neuron.addConnection(neurons.get(neuronIndex), Double.parseDouble(conn[1]));
+						}
 					}
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("The save data is corrupt!");
+			throw new RuntimeException("The save data is corrupt!", e);
 		}
 	}
 
@@ -98,29 +105,21 @@ public class NeuralNetwork {
 		return -1;
 	}
 
-	public void save(File file, boolean saveWeights) {
-		BufferedWriter bw;
-		try {
-			bw = new BufferedWriter(new FileWriter(file));
-			bw.write(inputNeurons.size() + ";" + 
-					 (neurons.size() - (inputNeurons.size() + outputNeurons.size())) + ";" + 
-					 outputNeurons.size());
-			bw.newLine();
-			for (int i = inputNeurons.size(); i < neurons.size(); i++) {
-				String data = "";
-				Neuron n = neurons.get(i);
-				data += i + ";";
-				ArrayList<Connection> connections = n.getConnections();
-				for (Connection c : connections) {
-					data += getIndex(c.getNeuron()) + (saveWeights ? ":" + c.getWeight() : "") + ",";
-				}
-				bw.write(data);
-				bw.newLine();
+	public String[] save(boolean saveWeights) {
+		ArrayList<String> list = new ArrayList<String>();
+		list.add(inputNeurons.size() + ";" + 
+				 (neurons.size() - (inputNeurons.size() + outputNeurons.size())) + ";" + 
+				 outputNeurons.size());
+		for (int i = inputNeurons.size(); i < neurons.size(); i++) {
+			String data = "";
+			Neuron n = neurons.get(i);
+			data += i + ";";
+			ArrayList<Connection> connections = n.getConnections();
+			for (Connection c : connections) {
+				data += (c instanceof BiasConnection ? "b" : getIndex(c.getNeuron())) + (saveWeights ? ":" + c.getWeight() : "") + ",";
 			}
-			bw.flush();
-			bw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+			list.add(data);
 		}
+		return list.toArray(new String[]{});
 	}
 }

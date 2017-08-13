@@ -6,7 +6,7 @@ public class Main {
 	public static void main(String[] args) {
 		File file = new File("/storage/emulated/0/Git/NeuralNetwork/src/de/jrk/tests/test.nns");
 		NeuralNetwork nn = new NeuralNetwork(file);
-		nn.save(file, true);
+		FileHandler.save(file, nn.save(true));
 		double[] outputs;
 		for(int i = 0; i < 100; i++) {
 			outputs = nn.step(new double[] {2, 2, 2, 2, 2});

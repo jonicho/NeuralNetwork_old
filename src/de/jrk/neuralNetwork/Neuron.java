@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import de.jrk.neuralNetwork.activationFunctions.ActivationFunction;
 
 public class Neuron {
-	private ArrayList<Connection> connections;
+	protected ArrayList<Connection> connections;
 	private double activationLevel;
 	private double netInput;
-	private ActivationFunction activationFunction;
+	protected ActivationFunction activationFunction;
 	
 	public Neuron() {
 		connections = new ArrayList<Connection>();
@@ -22,6 +22,14 @@ public class Neuron {
 		connections.add(new Connection(neuron, weight));
 	}
 	
+	public void addBiasConnection() {
+		connections.add(new BiasConnection());
+	}
+	
+	public void addBiasConnection(double weight) {
+		connections.add(new BiasConnection(weight));
+	}
+	
 	public ArrayList<Connection> getConnections() {
 		return connections;
 	}
@@ -33,7 +41,7 @@ public class Neuron {
 	public void calculateNetInput() {
 		netInput = 0;
 		for(Connection c : connections) {
-			netInput += c.getInput();
+			netInput += c.getValue();
 		}
 	}
 	
