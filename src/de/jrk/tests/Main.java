@@ -8,12 +8,15 @@ public class Main {
 		NeuralNetwork nn = new NeuralNetwork(file);
 		FileHandler.save(file, nn.save(true));
 		float[] outputs;
-		for(int i = 0; i < 100; i++) {
+		long startTime = System.currentTimeMillis();
+		for(int i = 0; i < 10000; i++) {
 			outputs = nn.step(new float[] {0, 0, 0, 0, 0});
 			for(int j = 0; j < outputs.length - 1; j++) {
 				System.out.print(outputs[j] + "; ");
 			}
 			System.out.println(outputs[outputs.length - 1]);
 		}
+		long endTime = System.currentTimeMillis();
+		System.out.println(endTime - startTime);
 	}
 }

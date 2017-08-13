@@ -8,17 +8,20 @@ import java.util.ArrayList;
 import de.jrk.neuralNetwork.util.Util;
 
 public class NeuralNetwork {
+	private static final float STANDARD_MUTATION_RATE = 0.01f;
+
 	private ArrayList<InputNeuron> inputNeurons;
 	private ArrayList<Neuron> neurons;
 	private ArrayList<Neuron> outputNeurons;
+	private float mutationRate;
 
 	public NeuralNetwork(File file) {
 		this(FileHandler.load(file));
 	}
 
 	public NeuralNetwork(String[] data) {
-		int[] neuronAmount = Util.convertToIntArray(data[0].split(";"));
-		if (neuronAmount.length != 3) {
+		String[] basicInfo = data[0].split(";");
+		if (basicInfo.length != 3 && basicInfo.length != 4) {
 			throw new RuntimeException("The save data is corrupt!");
 		}
 
@@ -27,40 +30,45 @@ public class NeuralNetwork {
 			neurons = new ArrayList<Neuron>();
 			outputNeurons = new ArrayList<Neuron>();
 
-			for (int i = 0; i < neuronAmount[0]; i++) {
+			for (int i = 0; i < Integer.parseInt(basicInfo[0]); i++) {
 				InputNeuron in = new InputNeuron();
 				inputNeurons.add(in);
 				neurons.add(in);
 			}
 
-			for (int i = 0; i < neuronAmount[1]; i++) {
+			for (int i = 0; i < Integer.parseInt(basicInfo[1]); i++) {
 				neurons.add(new Neuron());
 			}
 
-			for (int i = 0; i < neuronAmount[2]; i++) {
+			for (int i = 0; i < Integer.parseInt(basicInfo[2]); i++) {
 				Neuron n = new Neuron();
 				outputNeurons.add(n);
 				neurons.add(n);
 			}
 
+			if (basicInfo.length == 4) mutationRate = Float.parseFloat(basicInfo[3]);
+			else mutationRate = STANDARD_MUTATION_RATE;
+
 			for (int i = 1; i < data.length; i++) {
 				String[] conns = data[i].split(";");
 				Neuron neuron = neurons.get(Integer.parseInt(conns[0]));
-				String[] neuronsToConn = conns[1].split(",");
-				for (String k : neuronsToConn) {
-					String[] conn = k.split(":");
-					if (conn[0].equals("b") || conn[0].equals("B")) {
-						if (conn.length == 1) {
-							neuron.addBiasConnection();
+				if (conns.length > 1) {
+					String[] neuronsToConn = conns[1].split(",");
+					for (String k : neuronsToConn) {
+						String[] conn = k.split(":");
+						if (conn[0].equals("b") || conn[0].equals("B")) {
+							if (conn.length == 1) {
+								neuron.addBiasConnection();
+							} else {
+								neuron.addBiasConnection(Float.parseFloat(conn[1]));
+							}
 						} else {
-							neuron.addBiasConnection(Float.parseFloat(conn[1]));
-						}
-					} else {
-						int neuronIndex = Integer.parseInt(conn[0]);
-						if (conn.length == 1) {
-							neuron.addConnection(neurons.get(neuronIndex));
-						} else {
-							neuron.addConnection(neurons.get(neuronIndex), Float.parseFloat(conn[1]));
+							int neuronIndex = Integer.parseInt(conn[0]);
+							if (conn.length == 1) {
+								neuron.addConnection(neurons.get(neuronIndex));
+							} else {
+								neuron.addConnection(neurons.get(neuronIndex), Float.parseFloat(conn[1]));
+							}
 						}
 					}
 				}
@@ -109,7 +117,8 @@ public class NeuralNetwork {
 		ArrayList<String> list = new ArrayList<String>();
 		list.add(inputNeurons.size() + ";" + 
 				 (neurons.size() - (inputNeurons.size() + outputNeurons.size())) + ";" + 
-				 outputNeurons.size());
+				 outputNeurons.size() + 
+				 (mutationRate != STANDARD_MUTATION_RATE ? ";" + mutationRate + "" : ""));
 		for (int i = inputNeurons.size(); i < neurons.size(); i++) {
 			String data = "";
 			Neuron n = neurons.get(i);
@@ -121,5 +130,27 @@ public class NeuralNetwork {
 			list.add(data);
 		}
 		return list.toArray(new String[]{});
+	}
+
+	public void mutate() {
+		mutate(mutationRate);
+	}
+
+	public void mutate(float mutationRate) {
+		if (mutationRate == 0) throw new IllegalArgumentException("Mutation rate can't be 0!");
+		for (Neuron n : neurons) {
+			if (!(n instanceof InputNeuron)) {
+				n.mutate(mutationRate);
+			}
+		}
+	}
+
+	public NeuralNetwork getClone() {
+		return (NeuralNetwork) clone();
+	}
+
+	@Override
+	protected Object clone() {
+		return new NeuralNetwork(save(true));
 	}
 }

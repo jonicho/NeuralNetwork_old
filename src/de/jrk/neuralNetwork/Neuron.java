@@ -48,4 +48,10 @@ public class Neuron {
 	public void calculateActivationLevel() {
 		activationLevel = activationFunction.function(netInput);
 	}
+	
+	public void mutate(float mutationRate) {
+		for(Connection c : connections) {
+			c.mutate(mutationRate);
+		}
+	}
 }

@@ -1,6 +1,9 @@
 package de.jrk.neuralNetwork.util;
+import java.util.*;
 
 public class Util {
+	public static Random random = new Random();
+	
 	private Util() {}
 	
 	public static int[] convertToIntArray(String[] strArr) {

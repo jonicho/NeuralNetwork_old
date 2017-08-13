@@ -37,4 +37,11 @@ public class InputNeuron extends Neuron {
 			"You can't calculate the activation level of an input neuron!"
 		);
 	}
+
+	@Override
+	public void mutate(float mutationRate) {
+		throw new UnsupportedOperationException(
+			"You can't mutate an input neuron!"
+		);
+	}
 }
