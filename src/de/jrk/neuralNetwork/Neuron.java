@@ -1,10 +1,11 @@
 package de.jrk.neuralNetwork;
 
-import java.util.ArrayList;
 import de.jrk.neuralNetwork.activationFunctions.ActivationFunction;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Neuron {
-	protected ArrayList<Connection> connections;
+	protected List<Connection> connections;
 	private float activationLevel;
 	private float netInput;
 	protected ActivationFunction activationFunction;
@@ -12,6 +13,10 @@ public class Neuron {
 	public Neuron() {
 		connections = new ArrayList<Connection>();
 		activationFunction = ActivationFunction.tangensHyperbolicus;
+	}
+	
+	public void setActivationLevel(float activationLevel) {
+		this.activationLevel = activationLevel;
 	}
 	
 	public void addConnection(Neuron neuron) {
@@ -30,7 +35,7 @@ public class Neuron {
 		connections.add(new BiasConnection(weight));
 	}
 	
-	public ArrayList<Connection> getConnections() {
+	public List<Connection> getConnections() {
 		return connections;
 	}
 	
