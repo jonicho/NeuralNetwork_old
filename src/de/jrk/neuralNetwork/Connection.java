@@ -1,7 +1,6 @@
 package de.jrk.neuralNetwork;
 
 import de.jrk.neuralNetwork.util.Util;
-import de.jrk.tests.*;
 
 public class Connection {
 	protected float weight;
@@ -13,7 +12,7 @@ public class Connection {
 	}
 	
 	public Connection(Neuron neuron) {
-		this(neuron, (float) Math.random() * 2 - 1);
+		this(neuron, (float) Math.tanh(Math.random() * 2 - 1));
 	}
 
 	public Neuron getNeuron() {
