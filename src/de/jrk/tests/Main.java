@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 public class Main {
 	public static void main(String[] args) throws FileNotFoundException {
 		File file = new File("/storage/emulated/0/Git/NeuralNetwork/test.xml");
-		NeuralNetwork nn = new NeuralNetwork(1, new FileInputStream(file));
+		NeuralNetwork nn = new NeuralNetwork(2, new FileInputStream(file));
 		method(nn);
 		nn.save(2, new FileOutputStream(file));
 		nn = nn.getClone();

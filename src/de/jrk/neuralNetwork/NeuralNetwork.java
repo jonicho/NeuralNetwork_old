@@ -1,5 +1,6 @@
 package de.jrk.neuralNetwork;
 
+import de.jrk.neuralNetwork.activationFunctions.ActivationFunction;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -111,10 +112,13 @@ public class NeuralNetwork {
 				Element neuronElement = (Element) neuronNodes.item(i);
 				int id = Integer.parseInt(neuronElement.getAttribute("id"));
 				String actLevel = loadActLevel ? neuronElement.getAttribute("actLevel") : "";
+				String actFunc = loadActFunc ? neuronElement.getAttribute("actFunc") : "";
 				Neuron neuron = neurons.get(id);
 				if (!actLevel.equals("")) {
 					neuron.setActivationLevel(Float.parseFloat(actLevel));
 				}
+				neuron.setActivationFunction(actFunc.equals("") ? ActivationFunction.TANH : actFunc);
+				
 				NodeList connectionNodes = neuronElement.getElementsByTagName("connection");
 				for (int k = 0; k < connectionNodes.getLength(); k++) {
 					Element connectionElement = (Element) connectionNodes.item(k);
@@ -162,6 +166,7 @@ public class NeuralNetwork {
 					if (neuron.getConnections().size() > 0 || saveActLevel) {
 						Element neuronElement = doc.createElement("neuron");
 						neuronElement.setAttribute("id", String.valueOf(i));
+						if (saveActFunc) neuronElement.setAttribute("actFunc", neuron.getActivationFunction().toString());
 						if (saveActLevel) neuronElement.setAttribute("actLevel", String.valueOf(neuron.getActivationLevel()));
 						network.appendChild(neuronElement);
 

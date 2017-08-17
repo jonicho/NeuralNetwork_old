@@ -12,7 +12,18 @@ public class Neuron {
 	
 	public Neuron() {
 		connections = new ArrayList<Connection>();
-		activationFunction = ActivationFunction.tangensHyperbolicus;
+	}
+	
+	public void setActivationFunction(String activationFunction) {
+		setActivationFunction(ActivationFunction.getActivationFunction(activationFunction));
+	}
+	
+	public void setActivationFunction(ActivationFunction activationFunction) {
+		this.activationFunction = activationFunction;
+	}
+	
+	public ActivationFunction getActivationFunction() {
+		return activationFunction;
 	}
 	
 	public void setActivationLevel(float activationLevel) {
