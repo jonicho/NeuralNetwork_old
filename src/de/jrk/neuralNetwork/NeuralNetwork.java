@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
@@ -118,7 +120,7 @@ public class NeuralNetwork {
 					neuron.setActivationLevel(Float.parseFloat(actLevel));
 				}
 				neuron.setActivationFunction(actFunc.equals("") ? ActivationFunction.TANH : actFunc);
-				
+
 				NodeList connectionNodes = neuronElement.getElementsByTagName("connection");
 				for (int k = 0; k < connectionNodes.getLength(); k++) {
 					Element connectionElement = (Element) connectionNodes.item(k);
@@ -140,6 +142,7 @@ public class NeuralNetwork {
 					}
 				}
 			}
+			sortConnections();
 		} catch (SAXException | IOException | ParserConfigurationException | NumberFormatException e) {
 			e.printStackTrace();
 		}
@@ -160,7 +163,7 @@ public class NeuralNetwork {
 			}
 			doc.appendChild(network);
 
-			for (int i = inputNeurons.size(); i < neurons.size(); i++) {
+			for (int i = 0; i < neurons.size(); i++) {
 				Neuron neuron = neurons.get(i);
 				if (!(neuron instanceof InputNeuron)) {
 					if (neuron.getConnections().size() > 0 || saveActLevel) {
@@ -189,6 +192,15 @@ public class NeuralNetwork {
 		}
 	}
 
+	private void sortConnections() {
+		ConnectionComperator comp = new ConnectionComperator();
+		for (Neuron n : neurons) {
+			if (!(n instanceof InputNeuron)) {
+				Collections.sort(n.getConnections(), comp);
+			}
+		}
+	}
+
 	public void mutate() {
 		mutate(mutationRate);
 	}
@@ -211,5 +223,13 @@ public class NeuralNetwork {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		save(1, baos);
 		return new NeuralNetwork(1, new ByteArrayInputStream(baos.toByteArray()));
+	}
+
+	private class ConnectionComperator implements Comparator<Connection> {
+
+		@Override
+		public int compare(Connection c1, Connection c2) {
+			return getIndex(c1.getNeuron()) - getIndex(c2.getNeuron());
+		}
 	}
 }
