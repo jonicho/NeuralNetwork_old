@@ -1,6 +1,7 @@
 package de.jrk.neuralNetwork;
 
 import de.jrk.neuralNetwork.activationFunctions.ActivationFunction;
+import de.jrk.neuralNetwork.util.Util;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,13 @@ public class Neuron {
 	
 	public void addBiasConnection(float weight) {
 		connections.add(new BiasConnection(weight));
+	}
+	
+	public void initWeights() {
+		float x = (float) Math.sqrt(connections.size());
+		for (Connection c : connections) {
+			c.setWeight((Util.random.nextFloat() * 2 - 1) / x);
+		}
 	}
 	
 	public List<Connection> getConnections() {

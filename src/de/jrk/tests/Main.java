@@ -20,7 +20,7 @@ public class Main {
 		float[] outputs;
 		long startTime = System.currentTimeMillis();
 		for (int i = 0; i < 10; i++) {
-			outputs = nn.step(new float[] {0, 0, 0, 0, 0});
+			outputs = nn.step(new float[] {1, 1, 1, 1, 1});
 			for (int j = 0; j < outputs.length - 1; j++) {
 				System.out.print(outputs[j] + "; ");
 			}

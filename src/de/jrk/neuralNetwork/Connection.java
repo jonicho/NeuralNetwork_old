@@ -12,11 +12,15 @@ public class Connection {
 	}
 	
 	public Connection(Neuron neuron) {
-		this(neuron, (float) Math.tanh(Math.random() * 2 - 1));
+		this(neuron, 0);
 	}
 
 	public Neuron getNeuron() {
 		return neuron;
+	}
+	
+	public void setWeight(float weight) {
+		this.weight = weight;
 	}
 	
 	public float getWeight() {

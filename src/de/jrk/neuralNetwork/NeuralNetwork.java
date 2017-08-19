@@ -83,6 +83,7 @@ public class NeuralNetwork {
 			int hiddens = Integer.parseInt(network.getAttribute("hiddens"));
 			int outputs = Integer.parseInt(network.getAttribute("outputs"));
 			String mutationRateAttr = network.getAttribute("mutationRate");
+			int saveLevel = Integer.parseInt(network.getAttribute("saveLevel"));
 			if (!mutationRateAttr.equals("")) {
 				mutationRate = Float.parseFloat(mutationRateAttr);
 			} else {
@@ -141,6 +142,9 @@ public class NeuralNetwork {
 						}
 					}
 				}
+				if (saveLevel < 2 || loadLevel < 2) {
+					neuron.initWeights();
+				}
 			}
 			sortConnections();
 		} catch (SAXException | IOException | ParserConfigurationException | NumberFormatException e) {
@@ -161,6 +165,7 @@ public class NeuralNetwork {
 			if (mutationRate != STANDARD_MUTATION_RATE) {
 				network.setAttribute("mutationRate", String.valueOf(mutationRate));
 			}
+			network.setAttribute("saveLevel", String.valueOf(saveLevel));
 			doc.appendChild(network);
 
 			for (int i = 0; i < neurons.size(); i++) {
