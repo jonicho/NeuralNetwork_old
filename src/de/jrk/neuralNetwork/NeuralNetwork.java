@@ -221,8 +221,8 @@ public class NeuralNetwork {
 	@Override
 	protected Object clone() {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		save(1, baos);
-		return new NeuralNetwork(1, new ByteArrayInputStream(baos.toByteArray()));
+		save(2, baos);
+		return new NeuralNetwork(2, new ByteArrayInputStream(baos.toByteArray()));
 	}
 
 	private class ConnectionComperator implements Comparator<Connection> {
