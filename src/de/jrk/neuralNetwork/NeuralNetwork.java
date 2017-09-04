@@ -25,6 +25,10 @@ import org.xml.sax.SAXException;
 
 public class NeuralNetwork {
 	private static final float STANDARD_MUTATION_RATE = 0.01f;
+	public static final int LOAD_LEVEL_STRUCTURE = 0,
+			LOAD_LEVEL_ACT_FUNCS = 1,
+			LOAD_LEVEL_WEIGHTS = 2,
+			LOAD_LEVEL_ACT_LEVEL = 3;
 
 	private ArrayList<InputNeuron> inputNeurons;
 	private ArrayList<Neuron> neurons;
