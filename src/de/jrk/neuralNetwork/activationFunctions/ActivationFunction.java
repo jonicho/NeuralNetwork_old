@@ -42,9 +42,9 @@ public abstract class ActivationFunction {
 	}
 
 	@Override
-	public abstract String toString()
+	public abstract String toString();
 
-	public abstract float function(float x)
+	public abstract float function(float x);
 
 
 
