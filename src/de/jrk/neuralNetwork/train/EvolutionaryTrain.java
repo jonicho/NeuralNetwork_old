@@ -54,7 +54,7 @@ public class EvolutionaryTrain {
 	private int getIndexOfBestNetwork() {
 		int bestNetwork = 0;
 		for (int i = 1; i < networks.length; i++) {
-			if (scores[i] > scores[bestNetwork]) bestNetwork = i;
+			if (!(scores[i] < scores[bestNetwork])) bestNetwork = i;
 		}
 		return bestNetwork;
 	}
