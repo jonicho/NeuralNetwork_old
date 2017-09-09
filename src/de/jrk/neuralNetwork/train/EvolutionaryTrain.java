@@ -5,6 +5,8 @@ import java.io.OutputStream;
 
 import de.jrk.neuralNetwork.NeuralNetwork;
 
+//TODO complete rewrite this
+
 public class EvolutionaryTrain {
 	private NeuralNetwork[] networks;
 	private float[] scores;
