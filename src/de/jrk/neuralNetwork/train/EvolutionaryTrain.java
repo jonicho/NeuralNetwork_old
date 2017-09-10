@@ -1,71 +1,57 @@
 package de.jrk.neuralNetwork.train;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import de.jrk.neuralNetwork.NeuralNetwork;
 
-//TODO complete rewrite this
-
+/**
+ * A training class for a {@link NeuralNetwork}.
+ * 
+ * @author Jonas Keller
+ *
+ */
 public class EvolutionaryTrain {
-	private NeuralNetwork[] networks;
-	private float[] scores;
-	private int currentNetwork = 0;
-	private final int networksPerGen;
-	
-	public EvolutionaryTrain(int loadLevel, InputStream inputStream, int networksPerGen) {
-		this.networksPerGen = networksPerGen;
-		
-		networks = new NeuralNetwork[this.networksPerGen];
-		scores = new float[this.networksPerGen];
-		
-		networks[0] = new NeuralNetwork(loadLevel, inputStream);
-		for (int i = 1; i < networks.length; i++) {
-			networks[i] = networks[0].getClone();
-			networks[i].mutate();
-		}
-	}
-	
-	public float[] step(float[] inputs) {
-		return networks[currentNetwork].step(inputs);
-	}
-	
-	public void setScore(float score) {
-		scores[currentNetwork] = score;
-	}
-	
-	public void nextNetwork() {
-		currentNetwork++;
-		if (currentNetwork >= networksPerGen) {
-			currentNetwork = 0;
-			mutateNetworksFromBestNetwork();
-			resetScores();
-		}
-	}
-	
-	public void saveBestNetwork(int saveLevel, OutputStream outputStream) {
-		networks[getIndexOfBestNetwork()].save(saveLevel, outputStream);
-	}
-	
-	private void resetScores() {
-		for (int i = 0; i < scores.length; i++) {
-			scores[i] = 0;
-		}
-	}
-	
-	private int getIndexOfBestNetwork() {
-		int bestNetwork = 0;
-		for (int i = 1; i < networks.length; i++) {
-			if (!(scores[i] < scores[bestNetwork])) bestNetwork = i;
-		}
-		return bestNetwork;
+	private NeuralNetworkWithScore networkWithScore;
+	private NeuralNetworkWithScore networkWithScoreSave;
+
+	public EvolutionaryTrain(NeuralNetwork network) {
+		this.networkWithScore = new NeuralNetworkWithScore(network);
 	}
 
-	private void mutateNetworksFromBestNetwork() {
-		networks[0] = networks[getIndexOfBestNetwork()];
-		for (int i = 1; i < networks.length; i++) {
-			networks[i] = networks[0].getClone();
-			networks[i].mutate();
+	/**
+	 * Returns the network.
+	 * 
+	 * @return the network.
+	 */
+	public NeuralNetwork getNetwork() {
+		return networkWithScore.getNetwork();
+	}
+
+	/**
+	 * Sets the score for the current {@link NeuralNetwork}.<br/>
+	 * It is recommended to set this directly before calling {@code next()}.
+	 * 
+	 * @param score
+	 *            the score.
+	 */
+	public void setScore(float score) {
+		networkWithScore.setScore(score);
+	}
+
+	/**
+	 * If the mutated {@link NeuralNetwork} was better than the initial one, it is
+	 * used as the next initial one. Otherwise the initial one is mutated one more
+	 * time.<br/>
+	 * Resets all activation levels to keep the same start conditions.<br/>
+	 * It is recommended to set the score before calling {@link next()}.
+	 */
+	public void next() {
+		networkWithScore.getNetwork().resetActivatonLevels();
+		networkWithScoreSave.getNetwork().resetActivatonLevels();
+		if (networkWithScore.getScore() > networkWithScoreSave.getScore()) {
+			networkWithScoreSave = networkWithScore;
+			networkWithScore.getNetwork().mutate();
+		} else {
+			networkWithScore = networkWithScoreSave;
+			networkWithScore.getNetwork().mutate();
 		}
 	}
 }
