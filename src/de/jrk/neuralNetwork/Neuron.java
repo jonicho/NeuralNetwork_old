@@ -64,6 +64,25 @@ public class Neuron {
 		this.activationLevel = activationLevel;
 	}
 
+	
+	/**
+	 * Returns a list of all {@link Connection}s of this {@link Neuron}.
+	 * 
+	 * @return a list of all {@link Connection}s of this {@link Neuron}.
+	 */
+	public List<Connection> getConnections() {
+		return connections;
+	}
+
+	/**
+	 * Returns the activation level of this {@link Neuron}.
+	 * 
+	 * @return the activation level of this {@link Neuron}.
+	 */
+	public float getActivationLevel() {
+		return activationLevel;
+	}
+	
 	/**
 	 * Adds a {@link Connection} with the given {@link Neuron}. The weight will be
 	 * 0.
@@ -116,24 +135,6 @@ public class Neuron {
 	}
 
 	/**
-	 * Returns a list of all {@link Connection}s of this {@link Neuron}.
-	 * 
-	 * @return a list of all {@link Connection}s of this {@link Neuron}.
-	 */
-	public List<Connection> getConnections() {
-		return connections;
-	}
-
-	/**
-	 * Returns the activation level of this {@link Neuron}.
-	 * 
-	 * @return the activation level of this {@link Neuron}.
-	 */
-	public float getActivationLevel() {
-		return activationLevel;
-	}
-
-	/**
 	 * Calculates the net input.
 	 */
 	public void calculateNetInput() {
@@ -161,5 +162,12 @@ public class Neuron {
 		for (Connection c : connections) {
 			c.mutate(mutationRate);
 		}
+	}
+	
+	/**
+	 * Resets the activation level to 0.
+	 */
+	public void resetActivationLevel() {
+		activationLevel = 0;
 	}
 }

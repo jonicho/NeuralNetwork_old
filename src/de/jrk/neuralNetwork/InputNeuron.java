@@ -66,4 +66,13 @@ public class InputNeuron extends Neuron {
 	public void mutate(float mutationRate) {
 		throw new UnsupportedOperationException("You can't mutate an input neuron!");
 	}
+	
+	/**
+	 * {@inheritDoc}<br/>
+	 * Does not work with an {@link InputNeuron}.
+	 */
+	@Override
+	public void resetActivationLevel() {
+		throw new UnsupportedOperationException("You can't reset the activation level of an input neuron!");
+	}
 }

@@ -290,6 +290,17 @@ public class NeuralNetwork {
 	}
 
 	/**
+	 * Resets the activation levels of all neurons to 0.
+	 */
+	public void resetActivatonLevels() {
+		for (Neuron n : neurons) {
+			if (!(n instanceof InputNeuron)) {
+				n.resetActivationLevel();
+			}
+		}
+	}
+	
+	/**
 	 * Sorts all {@link Connection}s by the index of their {@link Neuron}.
 	 */
 	private void sortConnections() {
