@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<network hiddens="2" inputs="1" mutationRate="1.0" outputs="1" saveLevel="2">
+    <neuron actFunc="identity" id="1">
+        <connection neuron="b" weight="0.5783977"/>
+        <connection neuron="0" weight="-0.63514674"/>
+        <connection neuron="2" weight="-0.001077703"/>
+    </neuron>
+    <neuron actFunc="identity" id="2">
+        <connection neuron="1" weight="-0.010885855"/>
+    </neuron>
+    <neuron actFunc="identity" id="3">
+        <connection neuron="1" weight="-0.018864755"/>
+    </neuron>
+</network>
