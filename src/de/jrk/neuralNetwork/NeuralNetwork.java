@@ -114,7 +114,7 @@ public class NeuralNetwork {
 	 *            inputs will be set to 0.
 	 * @return the outputs.
 	 */
-	public float[] step(float[] inputs) {
+	public float[] step(float... inputs) {
 		if (inputs == null) {
 			inputs = new float[inputNeurons.size()];
 			Arrays.fill(inputs, 0);

@@ -33,4 +33,15 @@ public class NeuralNetworkWithScore {
 	public void setScore(float score) {
 		this.score = score;
 	}
+	
+	public NeuralNetworkWithScore getClone() {
+		return (NeuralNetworkWithScore) clone();
+	}
+	
+	@Override
+	protected Object clone() {
+		NeuralNetworkWithScore clone = new NeuralNetworkWithScore(network.getClone());
+		clone.score = score;
+		return clone;
+	}
 }

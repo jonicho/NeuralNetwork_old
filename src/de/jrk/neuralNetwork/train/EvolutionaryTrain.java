@@ -44,14 +44,24 @@ public class EvolutionaryTrain {
 	 * It is recommended to set the score before calling {@link next()}.
 	 */
 	public void next() {
-		networkWithScore.getNetwork().resetActivatonLevels();
-		networkWithScoreSave.getNetwork().resetActivatonLevels();
-		if (networkWithScore.getScore() > networkWithScoreSave.getScore()) {
-			networkWithScoreSave = networkWithScore;
-			networkWithScore.getNetwork().mutate();
+		if (networkWithScoreSave == null || networkWithScore.getScore() > networkWithScoreSave.getScore()) {
+			networkWithScoreSave = networkWithScore.getClone();
 		} else {
-			networkWithScore = networkWithScoreSave;
+			networkWithScore = networkWithScoreSave.getClone();
+		}
+		float mutationRate;
+		if (networkWithScore.getScore() < 0) {
+			mutationRate = 1f;
+		} else {
+			mutationRate = 1f / networkWithScore.getScore();
+			if (mutationRate > 1)
+				mutationRate = 1;
+		}
+		if (mutationRate != 0f) {
+			networkWithScore.getNetwork().setMutationRate(mutationRate);
 			networkWithScore.getNetwork().mutate();
 		}
+		networkWithScore.getNetwork().resetActivatonLevels();
+		networkWithScoreSave.getNetwork().resetActivatonLevels();
 	}
 }

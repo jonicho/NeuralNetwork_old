@@ -1,32 +1,34 @@
 package de.jrk.tests;
-import de.jrk.neuralNetwork.NeuralNetwork;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
+import de.jrk.neuralNetwork.NeuralNetwork;
+import de.jrk.neuralNetwork.train.EvolutionaryTrain;
+
 public class Main {
 	public static void main(String[] args) throws FileNotFoundException {
-		File file = new File("/storage/emulated/0/Git/NeuralNetwork/test.xml");
-		NeuralNetwork nn = new NeuralNetwork(2, new FileInputStream(file));
-		method(nn);
-		nn.save(2, new FileOutputStream(file));
-		nn = nn.getClone();
-		nn.mutate();
-		method(nn);
-	}
-
-	private static void method(NeuralNetwork nn) {
-		float[] outputs;
-		long startTime = System.currentTimeMillis();
-		for (int i = 0; i < 10; i++) {
-			outputs = nn.step(new float[] {1, 1, 1, 1, 1});
-			for (int j = 0; j < outputs.length - 1; j++) {
-				System.out.print(outputs[j] + "; ");
-			}
-			System.out.println(outputs[outputs.length - 1]);
+		File file = new File("test.xml");
+		NeuralNetwork nn = new NeuralNetwork(NeuralNetwork.LEVEL_WEIGHTS, new FileInputStream(file));
+		EvolutionaryTrain train = new EvolutionaryTrain(nn);
+		float random;
+		float x;
+		for (int i = 0; i < 100; i++) {
+			float score = 0;
+			random = (int) (Math.random() * 100) - 50;
+			System.out.println(random);
+			x = train.getNetwork().step(random)[0];
+			System.out.println(x);
+			random *= 33;
+			float diff = Math.abs(random - x);
+			diff /= random;
+			score = 1 / diff;
+			System.out.println(score);
+			train.setScore(score);
+			train.next();
 		}
-		long endTime = System.currentTimeMillis();
-		System.out.println(endTime - startTime);
+		train.getNetwork().save(NeuralNetwork.LEVEL_WEIGHTS, new FileOutputStream(file));
 	}
 }
